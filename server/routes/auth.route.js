@@ -1,26 +1,10 @@
 import express from 'express';
-
+import { register,login,logout } from '../controllers/auth.controller.js';
 const router = express.Router();
 
 // Define your post routes here
-router.get('/login', (req, res) => {
-  res.send('Get all posts');
-});
-
-router.get('/register', (req, res) => {
-  res.send('Create a new get');
-});
-
-router.get('/update', (req, res) => {
-  res.send('Create a new post');
-});
-
-
-router.get('logout', (req, res) => {
-  res.send('Update a post');
-});
-
-
-
+router.post('/register', register);
+router.post('/login', login);
+router.post('/logout', logout);
 
 export default router;

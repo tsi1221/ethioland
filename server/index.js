@@ -1,5 +1,6 @@
 import express from 'express';
 import postroute from './routes/post.route.js';
+import authroute from './routes/auth.route.js';
 // App and Port
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,7 +15,7 @@ app.get('/', (req, res) => {
 
 // Use post routes
 app.use('/api/posts', postroute);
-
+app.use('/api/auth/', authroute);
 
 // ✅ Start the server on localhost:5000
 app.listen(PORT, () => {
