@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Node dependencies
 **/node_modules/
 
@@ -18,3 +19,10 @@ client/build/
 # OS files
 .DS_Store
 Thumbs.db
+=======
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+>>>>>>> 6405def (Initial commit: Set up Node.js server with Prisma and Express)

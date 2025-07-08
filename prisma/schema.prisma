@@ -1,0 +1,61 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["mongodb"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullName        String
+  email           String   @unique
+  phone           String
+  passwordHash    String
+  role            Role     @default(BUYER)
+  nationalId      String?
+  kebeleId        String?
+  profilePhotoUrl String?
+
+  posts           Post[]    @relation("UserToPost")
+  comments        Comment[] @relation("UserToComment")
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Post {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  content    String
+  imageUrl   String?
+  userId     String   @db.ObjectId
+  user       User     @relation("UserToPost", fields: [userId], references: [id])
+  comments   Comment[] @relation("PostToComment")
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Comment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  content    String
+  userId     String   @db.ObjectId
+  postId     String   @db.ObjectId
+
+  user       User     @relation("UserToComment", fields: [userId], references: [id])
+  post       Post     @relation("PostToComment", fields: [postId], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  BUYER
+  SELLER
+  AGENT
+}
