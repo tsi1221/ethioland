@@ -1,0 +1,160 @@
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  background-color: #f5f6f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  margin: 0px 20rem;
+  max-width: 1000px;
+  width: 700rem;
+  box-sizing: border-box;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #202124;
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #202124;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #dadce0;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-family: 'Roboto', Arial, sans-serif;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.hint {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.error {
+  color: #d93025;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.success {
+  color: #188038;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  grid-column: span 2;
+  justify-self: center;
+}
+
+.button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.footer {
+  font-size: 14px;
+  color: #5f6368;
+  text-align: center;
+  grid-column: span 2;
+}
+
+.footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px;
+    margin: 10px;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .button {
+    width: 100%;
+    grid-column: span 1;
+  }
+
+  input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

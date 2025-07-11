@@ -1,6 +1,7 @@
+// schema.prisma
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  previewFeatures = ["mongodb"]
 }
 
 datasource db {
@@ -19,11 +20,13 @@ model User {
   kebeleId        String?
   profilePhotoUrl String?
 
-  posts           Post[]
-  comments        Comment[]
+  posts           Post[]    @relation("UserToPost")
+  comments        Comment[] @relation("UserToComment")
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+
+  Token Token[]
 }
 
 model Post {
@@ -32,8 +35,8 @@ model Post {
   content    String
   imageUrl   String?
   userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
-  comments   Comment[]
+  user       User     @relation("UserToPost", fields: [userId], references: [id])
+  comments   Comment[] @relation("PostToComment")
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -45,13 +48,20 @@ model Comment {
   userId     String   @db.ObjectId
   postId     String   @db.ObjectId
 
-  user       User     @relation(fields: [userId], references: [id])
-  post       Post     @relation(fields: [postId], references: [id])
+  user       User     @relation("UserToComment", fields: [userId], references: [id])
+  post       Post     @relation("PostToComment", fields: [postId], references: [id])
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
+model Token {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  token   String   @unique
+  userId  String   @db.ObjectId
+  user    User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+}
 enum Role {
   ADMIN
   BUYER

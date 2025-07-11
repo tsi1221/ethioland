@@ -1,29 +1,56 @@
 import express from 'express';
+import { authenticate, authorize } from '../middlewares/auth.js';
+import prisma from '../prisma.js';
 
 const router = express.Router();
 
-// Define your post routes here
-router.get('/', (req, res) => {
-  res.send('Get all posts');
+// Create post (authenticated users only)
+router.post('/', authenticate, async (req, res) => {
+  try {
+    const { title, content, imageUrl } = req.body;
+    
+    const newPost = await prisma.post.create({
+      data: {
+        title,
+        content,
+        imageUrl,
+        userId: req.user.id
+      }
+    });
+
+    res.status(201).json(newPost);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating post', error: error.message });
+  }
 });
 
-router.get('/test', (req, res) => {
-  res.send('Create a new get');
+// Update post (only by owner)
+router.put('/:id', authenticate, async (req, res) => {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: req.params.id }
+    });
+    
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    
+    if (post.userId !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized to edit this post' });
+    }
+    
+    const updatedPost = await prisma.post.update({
+      where: { id: req.params.id },
+      data: req.body
+    });
+    
+    res.json(updatedPost);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating post', error: error.message });
+  }
 });
 
-router.post('/test', (req, res) => {
-  res.send('Create a new post');
-});
+// Add other routes...
 
-
-router.put('/test', (req, res) => {
-  res.send('Update a post');
-});
-
-
-router.delete('/test', (req, res) => {
-  res.send('Delete a post');
-});
-
-
+// Export the router
 export default router;

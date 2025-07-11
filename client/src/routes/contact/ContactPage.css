@@ -1,0 +1,134 @@
+.contact-page {
+  font-family: 'Inter', sans-serif;
+  color: #2c3e50;
+  background-color: #f9fbfd;
+  padding-bottom: 60px;
+}
+
+/* === Hero Section === */
+.contact-hero {
+  background-size: cover;
+  background-position: center;
+  height: 21vh;
+  position: relative;
+  display: flex;
+  padding: 10px 0px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-hero:hover {
+  transform: scale(1.01);
+}
+
+.contact-hero .overlay {
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+  color: rgb(21, 18, 51);
+  transition: transform 0.3s ease;
+}
+
+.contact-hero h1 {
+  font-size: 44px;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.contact-hero p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* === Contact Section === */
+.contact-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 80px 6%;
+  gap: 40px;
+  margin-top: -50px;
+}
+
+.contact-form,
+.contact-info {
+  flex: 1 1 420px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form:hover,
+.contact-info:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
+}
+
+.contact-form h2,
+.contact-info h2 {
+  margin-bottom: 24px;
+  font-size: 26px;
+  color: #34495e;
+}
+
+/* === Input Styles === */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border: 1px solid #dfe6e9;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #fefefe;
+  transition: all 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+  background-color: #ffffff;
+  outline: none;
+}
+
+/* === Submit Button === */
+.cta-primary {
+  background-color: #f1c40f;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.cta-primary:hover {
+  background-color: #e67e22;
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* === Contact Info Section === */
+.contact-info p {
+  margin: 14px 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #2d3436;
+}
+
+.contact-info a {
+  color: #2980b9;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+  color: #1c598a;
+}

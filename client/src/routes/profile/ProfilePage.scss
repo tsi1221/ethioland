@@ -1,0 +1,90 @@
+// Variables
+$primary: #007bff;
+$success: #28a745;
+$danger: #dc3545;
+$text-color: #333;
+$background: #fff;
+$shadow: rgba(0, 0, 0, 0.1);
+
+// Container
+.profile-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: $background;
+  border-radius: 12px;
+  box-shadow: 0 0 10px $shadow;
+  color: $text-color;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+  }
+
+  .profile-card {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid $primary;
+    }
+
+    .info {
+      flex: 1;
+
+      .info-item {
+        margin-bottom: 1rem;
+
+        label {
+          font-weight: bold;
+          display: block;
+          margin-bottom: 0.25rem;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+
+    .button {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+
+      &.update {
+        background-color: $success;
+        color: white;
+
+        &:hover {
+          background-color: darken($success, 10%);
+        }
+      }
+
+      &.logout {
+        background-color: $danger;
+        color: white;
+
+        &:hover {
+          background-color: darken($danger, 10%);
+        }
+      }
+    }
+  }
+}
