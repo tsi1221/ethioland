@@ -1,7 +1,7 @@
 import express from 'express';
 import postroute from './routes/post.route.js'; // Routes for posts
 import authroute from './routes/auth.route.js'; 
-import testroute from './routes/test.route.js';
+// import testroute from './routes/test.route.js';
  // Routes for authentication
 import prisma from './prisma.js'; // Prisma ORM for database operations
 import cors from 'cors'; // Middleware for enabling CORS
@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 // Mount routes
 app.use('/api/posts', postroute); // All post-related routes
 app.use('/api/auth', authroute); // All authentication-related routes
-app.use('/api/test', testroute); // All test-related routes
+// app.use('/api/test', testroute); // All test-related routes
 // ======================
 // ⚠️ Error Handling
 // ======================

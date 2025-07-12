@@ -70,7 +70,7 @@ const RegisterForm = () => {
   const fields = [
     { name: 'fullName', label: 'Full Name', required: true, minLength: 4 },
     { name: 'email', label: 'Email', type: 'email', required: true },
-    { name: 'phone', label: 'Phone Number', required: true },
+    { name: 'phone', label: 'Phone Number', type: 'number', required: true },
     { name: 'password', label: 'Password', type: 'password', required: true, minLength: 6, maxLength: 12 },
     { name: 'role', label: 'Role' },
     { name: 'nationalId', label: 'National ID', minLength: 10, maxLength: 10 },

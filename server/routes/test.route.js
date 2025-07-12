@@ -1,23 +1,15 @@
-import jwt from "jsonwebtoken";
 import express from "express";
+import { shouldBeAdmin,shouldBeLoggedIn } from "../controllers/test.controller";
 
-export const shouldBeLoggedIn = (req,res) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-    req.user = user;
-    next();
-  });
-}
+const router = express.Router();
 
-export const shouldBeAdmin = (req,res,next)=>{
-    if (!req.user || req.user.role !== 'admin') {
-        return res.status(403).json({ message: "Forbidden" });
-    }
-    next();
-}
+
+router.get('/should-be-logged-in',shouldBeLoggedIn,(req,res)=>{
+    res.send("You are logged in");
+});
+
+router.get('/should-be-admin',shouldBeLoggedIn,shouldBeAdmin,(req,res)=>{
+    res.send("You are an admin");
+});
+
+// export default router;

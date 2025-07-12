@@ -2,7 +2,16 @@ import React from 'react';
 import { FaSearch } from 'react-icons/fa';
 import './HomePage.css';
 
+// import { AuthContext } from '../../context/AuthCcontext';
+
+
+
+
 const HomePage = () => {
+
+//   const { currentUser } = useContext(AuthContext);
+//   console.log(currentUser);
+
   return (
     <div className="homepage">
       <header className="navbar">
