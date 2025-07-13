@@ -1,33 +1,26 @@
-import React from 'react';
+import React, { Profiler, useContext } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import './HomePage.css';
 
-// import { AuthContext } from '../../context/AuthCcontext';
+
+import { AuthContext } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 
 
 
 const HomePage = () => {
 
-//   const { currentUser } = useContext(AuthContext);
-//   console.log(currentUser);
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
 
   return (
     <div className="homepage">
-      <header className="navbar">
-        <div className="logo">EthioEstate</div>
-        <nav>
-          <a href="#">Home</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-          <a href="#">Agents</a>
-        </nav>
-        <div className="user-profile">
-          <span className="dot"></span>
-          <span className="user-name">John Doe</span>
-          <button className="profile-btn">Profile</button>
-        </div>
+      <header>
+       
       </header>
+
+
 
       <section className="hero-section">
         <video autoPlay loop muted playsInline className="hero-video">

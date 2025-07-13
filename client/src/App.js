@@ -1,27 +1,31 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import RegisterForm from './components/RegisterForm';
-import LoginPage from './pages/LoginPage';
-import ProfilePage from './routes/profile/profilePage';
+import Navbar from './components/Navbar';
+
 import HomePage from './routes/homePage/HomePage';
-import AboutPage from './routes/about/AboutPage'
+import AboutPage from './routes/about/AboutPage';
 import ContactPage from './routes/contact/ContactPage';
+import ProfilePage from './routes/profile/profilePage';
+import RegisterForm from './components/RegisterForm';
+import ListPage from './routes/listPage/listpage';
+import LoginPage from './routes/login/LoginPage'
 
-
-function App() {
+const App = () => {
   return (
     <>
-   
-    <Routes>
-      <Route path="/register" element={<RegisterForm />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/me" element={<ProfilePage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/" element={<HomePage />} />
-    </Routes>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/me" element={<ProfilePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/list" element={<ListPage />} />
+      </Routes>
     </>
   );
-}
+};
 
 export default App;

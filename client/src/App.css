@@ -1,0 +1,48 @@
+/* app.css - CSS Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* Set HTML5 display roles for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, main, menu, nav, section, summary {
+  display: block;
+}
+
+/* Set body defaults */
+body {
+  line-height: 1;
+  background: white;
+  color: black;
+  font-family: Arial, sans-serif;
+}
+
+/* Remove list styles */
+ol, ul {
+  list-style: none;
+}
+
+/* Remove quotes in blockquote and q */
+blockquote, q {
+  quotes: none;
+}
+
+blockquote::before, blockquote::after,
+q::before, q::after {
+  content: '';
+  content: none;
+}
+
+/* Remove table borders and spacing */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}

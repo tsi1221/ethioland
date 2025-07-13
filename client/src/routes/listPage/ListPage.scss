@@ -1,0 +1,42 @@
+.list-page {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  padding: 1rem;
+  gap: 1rem;
+  margin-top: 7.4rem;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+
+  .list-left {
+    flex: 3; // Automatically fills available space
+    max-width: 100%; // Prevents taking over entire space
+    height: 100%;
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+    
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+
+    .property-list {
+      margin-top: 1rem;
+      display: flex;
+      max-width: 66%;
+      flex-direction: row;
+      
+      gap: 2.5rem;
+    }
+  }
+
+  .list-right {
+    flex: 1;
+    max-width: 40%;
+    height: 100%;
+    background-color: #eaeaea;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+}

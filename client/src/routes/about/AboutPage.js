@@ -4,13 +4,6 @@ import './AboutPage.css';
 const AboutPage = () => {
   return (
     <div className="about-page">
-      <section className="about-hero">
-        <div className="overlay">
-          <h1>About EthioEstate</h1>
-          <p>Your trusted partner in Ethiopian real estate.</p>
-        </div>
-      </section>
-
       <section className="about-content">
         <div className="about-text">
           <h2>Who We Are</h2>

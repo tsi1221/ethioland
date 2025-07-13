@@ -9,7 +9,7 @@
 .contact-hero {
   background-size: cover;
   background-position: center;
-  height: 21vh;
+  height: 27vh;
   position: relative;
   display: flex;
   padding: 10px 0px;
@@ -26,7 +26,7 @@
   padding: 10px;
   border-radius: 12px;
   text-align: center;
-  color: rgb(21, 18, 51);
+  color: rgba(18, 32, 73, 0.836);
   transition: transform 0.3s ease;
 }
 
@@ -48,7 +48,7 @@
   justify-content: space-between;
   padding: 80px 6%;
   gap: 40px;
-  margin-top: -50px;
+  margin-top: -83px;
 }
 
 .contact-form,
@@ -56,6 +56,7 @@
   flex: 1 1 420px;
   background: #ffffff;
   padding: 40px;
+  margin: 0 39px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;

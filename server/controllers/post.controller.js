@@ -1,21 +1,7 @@
-import prisma from "../prisma"; // Update the path as needed
+import prisma from "../prisma"; // ✅ Make sure this path is correct
 
-export const getPosts=async (req,res)=>{
-    try {
-        const posts = await prisma.post.findUnique({
-            where: {
-                id: req.params.id
-            }
-        });
-        res.json(posts);
-    } catch (error) {
-        console.error("Error fetching posts:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
-}
-
-
-export const addPosts=async (req,res)=>{
+// ✅ Get all posts
+export const getPosts = async (req, res) => {
     try {
         const posts = await prisma.post.findMany();
         res.json(posts);
@@ -23,10 +9,46 @@ export const addPosts=async (req,res)=>{
         console.error("Error fetching posts:", error);
         res.status(500).json({ error: "Internal server error" });
     }
-}
+};
 
+// ✅ Get a single post by ID
+export const getPostById = async (req, res) => {
+    try {
+        const post = await prisma.post.findUnique({
+            where: {
+                id: req.params.id,
+            },
+        });
 
-export const updatePosts=async (req,res)=>{
+        if (!post) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+
+        res.json(post);
+    } catch (error) {
+        console.error("Error fetching post:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+// ✅ Create a new post
+export const addPost = async (req, res) => {
+    try {
+        const { title, content } = req.body;
+
+        const newPost = await prisma.post.create({
+            data: { title, content },
+        });
+
+        res.status(201).json(newPost);
+    } catch (error) {
+        console.error("Error creating post:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+// ✅ Update an existing post
+export const updatePost = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, content } = req.body;
@@ -41,10 +63,10 @@ export const updatePosts=async (req,res)=>{
         console.error("Error updating post:", error);
         res.status(500).json({ error: "Internal server error" });
     }
-}
+};
 
-
-export const deletePosts=async (req,res)=>{
+// ✅ Delete a post
+export const deletePost = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -52,12 +74,9 @@ export const deletePosts=async (req,res)=>{
             where: { id },
         });
 
-        res.status(204).send();
+        res.status(204).send(); // No content
     } catch (error) {
         console.error("Error deleting post:", error);
         res.status(500).json({ error: "Internal server error" });
     }
-}
-        res.status(500).json({ error: "Internal server error" });
-    }
-}
+};

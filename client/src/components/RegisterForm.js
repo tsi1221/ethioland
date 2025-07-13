@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import '../styles/RegisterForm.css'; // Make sure this path is correct
-import apiRequest  from '../lib/apirequest';
-
-
+import apiRequest from '../lib/apirequest';
+import styles from '../styles/RegisterForm.module.css'; // ✅ Correct import
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -79,13 +76,13 @@ const RegisterForm = () => {
   ];
 
   return (
-    <div className="container">
-      <h2>Create an Account</h2>
-      {error && <p className="error">{error}</p>}
-      {success && <p className="success">{success}</p>}
-      <form onSubmit={handleSubmit} className="form">
+    <div className={styles.container}>
+      <h2 className={styles.title}>Create an Account</h2>
+      {error && <p className={styles.error}>{error}</p>}
+      {success && <p className={styles.success}>{success}</p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
         {fields.map((field) => (
-          <div key={field.name} className="inputGroup">
+          <div key={field.name} className={styles.inputGroup}>
             <label>
               {field.label}{field.required && '*'}
             </label>
@@ -99,20 +96,20 @@ const RegisterForm = () => {
               maxLength={field.maxLength}
             />
             {field.name === 'password' && (
-              <small className="hint">Password must be 6–12 characters</small>
+              <small className={styles.hint}>Password must be 6–12 characters</small>
             )}
             {field.name === 'fullName' && (
-              <small className="hint">Full name must be at least 4 characters</small>
+              <small className={styles.hint}>Full name must be at least 4 characters</small>
             )}
             {field.name === 'nationalId' && (
-              <small className="hint">National ID must be exactly 10 characters</small>
+              <small className={styles.hint}>National ID must be exactly 10 characters</small>
             )}
           </div>
         ))}
 
-        <button type="submit" className="button">Register</button>
+        <button type="submit" className={styles.button}>Register</button>
 
-        <p className="footer">
+        <p className={styles.footer}>
           Already have an account? <Link to="/login">Login</Link>
         </p>
       </form>

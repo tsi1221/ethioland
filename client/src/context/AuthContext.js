@@ -8,6 +8,11 @@ const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem('currentUser'))
   );
 
+const updateCurrentUser = (user) => {
+  setCurrentUser(user);
+  localStorage.setItem('currentUser', JSON.stringify(user));
+};
+
   return (
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
       {children}

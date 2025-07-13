@@ -27,6 +27,8 @@ model User {
   updatedAt       DateTime  @updatedAt
 }
 
+
+
 model post {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   title      String

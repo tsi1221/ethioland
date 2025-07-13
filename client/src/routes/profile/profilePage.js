@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'
-import './ProfilePage.scss';            // ✅ SCSS in same folder
-import apiRequest from '../../lib/apirequest'; // ✅ Go up to /src/lib/
-
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './ProfilePage.scss'; // SCSS for styling
+import apiRequest from '../../lib/apirequest'; // Axios instance
+import { AuthContext } from '../../context/AuthContext'; // Auth context
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Example: fetch user data on mount
+  const { currentUser, setCurrentUser } = useContext(AuthContext); // use context values
+
+  // Fetch user data when component mounts
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await apiRequest.get('auth/me'); // Adjust the route to your backend
+        const res = await apiRequest.get('auth/me');
         setUser(res.data);
       } catch (err) {
-        console.error(err);
+        console.error('User fetch error:', err);
         navigate('/login');
       }
     };
@@ -25,8 +27,10 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     try {
-      await apiRequest.post('auth/logout'); // Adjust if needed
-      navigate('/login');
+      await apiRequest.post('auth/logout');
+      setCurrentUser(null); // Clear context
+      localStorage.removeItem('currentUser'); // Optional: remove from localStorage
+      navigate('/');
     } catch (err) {
       console.error('Logout failed', err);
     }
@@ -43,7 +47,7 @@ const ProfilePage = () => {
       <h2>User Information</h2>
       <div className="profile-card">
         <img
-          src={user.profilePhotoUrl || '/default-avatar.png'}
+          src={user.profilePhotoUrl || '/novatar.png'}
           alt="User Avatar"
           className="avatar"
         />
@@ -66,6 +70,10 @@ const ProfilePage = () => {
         <button className="button logout" onClick={handleLogout}>
           Logout
         </button>
+      </div>
+
+      <div className="title">
+        <h1>My List</h1>
       </div>
     </div>
   );
