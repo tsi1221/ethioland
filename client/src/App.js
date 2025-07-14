@@ -9,6 +9,7 @@ import RegisterForm from './components/RegisterForm';
 import ListPage from './routes/listPage/listpage';
 import LoginPage from './routes/login/LoginPage'
 import UpdateProfile from './routes/UpdateProfile/UpdateProfile';
+import Chat from './routes/chat/Chat';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/list" element={<ListPage />} />
         <Route path="/update-profile" element={<UpdateProfile/>} />
+         <Route path="/chat" element={<Chat/>} /> {/* 🟢 Chat route added */}
       </Routes>
     </>
   );

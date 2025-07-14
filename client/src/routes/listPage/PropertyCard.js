@@ -1,6 +1,7 @@
 import React from "react";
 import { FaRegHeart, FaRegComments } from "react-icons/fa";
 import "./PropertyCard.scss";
+import { Link } from 'react-router-dom';
 import Slider from "../Slider/Slider"; // adjust path if needed
 
 const PropertyCard = ({ property }) => {
@@ -29,9 +30,11 @@ const PropertyCard = ({ property }) => {
             }
             if (type === "chat") {
               return (
-                <button key={type} className="chat-btn" aria-label="Chat about property">
-                  <FaRegComments /> {text}
-                </button>
+              <Link to="/chat" aria-label="Chat about property">
+  <button key={type} className="chat-btn">
+    <FaRegComments /> {text}
+  </button>
+</Link>
               );
             }
             return null;

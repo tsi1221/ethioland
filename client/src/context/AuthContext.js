@@ -1,23 +1,25 @@
-// src/context/AuthCcontext.js
-import React, { createContext, useState } from 'react';
+// src/context/AuthContext.js
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem('currentUser'))
+    JSON.parse(localStorage.getItem('currentUser')) || null
   );
 
-const updateCurrentUser = (user) => {
-  setCurrentUser(user);
-  localStorage.setItem('currentUser', JSON.stringify(user));
-};
+  // Update user and save to localStorage
+  const updateCurrentUser = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  };
 
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthContext.Provider value={{ currentUser, updateCurrentUser }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export { AuthContext, AuthContextProvider };
+// ✅ This enables useAuth in other components like Chat.js
+export const useAuth = () => useContext(AuthContext);
