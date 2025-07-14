@@ -13,6 +13,7 @@ $shadow: rgba(0, 0, 0, 0.1);
   padding: 2rem;
   background: $background;
   border-radius: 12px;
+  margin-top: 9rem;
   box-shadow: 0 0 10px $shadow;
   color: $text-color;
 
@@ -58,32 +59,60 @@ $shadow: rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     margin-top: 2rem;
+  }
 
-    .button {
-      padding: 0.8rem 1.5rem;
+  .title {
+    margin-top: 3rem;
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: $primary;
+    }
+
+    .add {
+      background-color: $primary;
+      color: white;
+      padding: 0.7rem 1.2rem;
       border: none;
-      cursor: pointer;
       border-radius: 6px;
       font-weight: bold;
-      font-size: 1rem;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto 1.5rem auto;
       transition: background 0.3s ease;
 
-      &.update {
-        background-color: $success;
-        color: white;
-
-        &:hover {
-          background-color: darken($success, 10%);
-        }
+      &:hover {
+        background-color: darken($primary, 10%);
       }
+    }
+  }
 
-      &.logout {
-        background-color: $danger;
-        color: white;
+  .button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background 0.3s ease;
 
-        &:hover {
-          background-color: darken($danger, 10%);
-        }
+    &.update {
+      background-color: $success;
+      color: white;
+
+      &:hover {
+        background-color: darken($success, 10%);
+      }
+    }
+
+    &.logout {
+      background-color: $danger;
+      color: white;
+
+      &:hover {
+        background-color: darken($danger, 10%);
       }
     }
   }

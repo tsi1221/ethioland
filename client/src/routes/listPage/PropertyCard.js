@@ -1,6 +1,7 @@
 import React from "react";
 import { FaRegHeart, FaRegComments } from "react-icons/fa";
 import "./PropertyCard.scss";
+import Slider from "../Slider/Slider"; // adjust path if needed
 
 const PropertyCard = ({ property }) => {
   const { title, address, price, bedrooms, bathrooms, images, actions } = property;
@@ -8,9 +9,7 @@ const PropertyCard = ({ property }) => {
   return (
     <div className="property-card">
       <div className="image-gallery">
-        {images.map((img, i) => (
-          <img key={i} src={img} alt={`${title} ${i + 1}`} />
-        ))}
+        <Slider images={images} />
       </div>
 
       <div className="details">
@@ -21,18 +20,20 @@ const PropertyCard = ({ property }) => {
 
         <div className="actions">
           {actions.map(({ type, text }) => {
-            if (type === "save")
+            if (type === "save") {
               return (
                 <button key={type} className="save-btn" aria-label="Save property">
                   <FaRegHeart /> {text}
                 </button>
               );
-            if (type === "chat")
+            }
+            if (type === "chat") {
               return (
                 <button key={type} className="chat-btn" aria-label="Chat about property">
                   <FaRegComments /> {text}
                 </button>
               );
+            }
             return null;
           })}
         </div>

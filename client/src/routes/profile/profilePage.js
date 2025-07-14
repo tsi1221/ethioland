@@ -25,6 +25,9 @@ const ProfilePage = () => {
     fetchUserData();
   }, [navigate]);
 
+    const handleAddToList = () => {
+    navigate("/create-post"); // Adjust the route as needed
+  };
   const handleLogout = async () => {
     try {
       await apiRequest.post('auth/logout');
@@ -47,7 +50,7 @@ const ProfilePage = () => {
       <h2>User Information</h2>
       <div className="profile-card">
         <img
-          src={user.profilePhotoUrl || '/novatar.png'}
+          src={user.profilePhotoUrl || '/images/noavater.png'}
           alt="User Avatar"
           className="avatar"
         />
@@ -74,6 +77,11 @@ const ProfilePage = () => {
 
       <div className="title">
         <h1>My List</h1>
+        <button className='button add' onClick={handleAddToList}>
+          Create New Post
+        </button>
+        <div className='title'>Saved Posts</div>
+      
       </div>
     </div>
   );

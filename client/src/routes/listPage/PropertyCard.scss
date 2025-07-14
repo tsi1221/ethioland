@@ -7,7 +7,7 @@
   flex-direction: column;
   margin-top: 10rem;
   gap: 1rem;
-  max-width: 470px;
+  max-width: 370px;
 
   .image-gallery {
     display: flex;
@@ -16,11 +16,12 @@
     border-radius: 10px;
 
     img {
-      width: 260px;
+      width: 320px;
       height: 115px;
       object-fit: cover;
       border-radius: 8px;
       flex-shrink: 0;
+      padding: -3rem;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
 
