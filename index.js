@@ -1,48 +1,66 @@
 import express from 'express';
-import postroute from './routes/post.route.js';
-import authroute from './routes/auth.route.js';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import prisma from './prisma.js';
 
-// App and Port
+import authRoutes from './routes/auth.route.js';
+import postRoutes from './routes/post.route.js';
+import  testRoute from './routes/test.route.js'
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// ======================
+// 📦 Middleware
+// ======================
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 
-// --- Example Routes ---
+// ======================
+// 🛣️ Routes
+// ======================
 app.get('/', (req, res) => {
-  res.send('Welcome to EthioLand API!');
+  res.send('🌍 Welcome to EthioLand API');
 });
 
-// Use post routes
-app.use('/api/posts', postroute);
-app.use('/api/auth/', authroute);
+app.use("/api/test", testRoute);
+app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 
-// Error handling middleware
+// ======================
+// ❗ Global Error Handler
+// ======================
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Something broke!' });
+  res.status(500).json({ message: 'Internal Server Error' });
 });
 
-// ✅ Start the server
+// ======================
+// 🚀 Start Server
+// ======================
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
 
-// Handle shutdown gracefully
-process.on('SIGTERM', async () => {
-  console.log('SIGTERM received. Shutting down gracefully...');
+// ======================
+// 💥 Graceful Shutdown
+// ======================
+const shutdown = async (signal) => {
+  console.log(`⚠️ ${signal} received. Closing server...`);
   await prisma.$disconnect();
   server.close(() => {
-    console.log('Process terminated');
+    console.log('✅ Server closed gracefully');
+    process.exit(0);
   });
-});
+};
 
-process.on('SIGINT', async () => {
-  console.log('SIGINT received. Shutting down gracefully...');
-  await prisma.$disconnect();
-  server.close(() => {
-    console.log('Process terminated');
-  });
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+process.on('uncaughtException', (err) => {
+  console.error('❗ Uncaught Exception:', err);
+  process.exit(1);
 });
