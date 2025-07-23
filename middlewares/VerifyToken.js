@@ -7,12 +7,12 @@ export const verifyToken = (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized!" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, payload) => {
     if (err) {
       return res.status(403).json({ message: "Token is not valid!" });
     }
 
-    req.userId = decoded.userId;
+    req.userId = payload.userId;
     next();
   });
 };
