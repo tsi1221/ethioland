@@ -1,15 +1,18 @@
-import prisma from "../prisma"; // ✅ Make sure this path is correct
+import prisma from "../prisma.js"; // ✅ Make sure this path is correct
 
 // ✅ Get all posts
 export const getPosts = async (req, res) => {
     try {
         const posts = await prisma.post.findMany();
-        res.json(posts);
+        res.status(200).json(posts);
     } catch (error) {
         console.error("Error fetching posts:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+
+
 
 // ✅ Get a single post by ID
 export const getPostById = async (req, res) => {
@@ -31,6 +34,7 @@ export const getPostById = async (req, res) => {
     }
 };
 
+
 // ✅ Create a new post
 export const addPost = async (req, res) => {
     try {
@@ -46,6 +50,8 @@ export const addPost = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+
 
 // ✅ Update an existing post
 export const updatePost = async (req, res) => {
@@ -64,6 +70,8 @@ export const updatePost = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+
 
 // ✅ Delete a post
 export const deletePost = async (req, res) => {

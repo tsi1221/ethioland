@@ -34,7 +34,7 @@ model post {
   title      String
   price      Int
   content    String
-  image      String
+  img      String
   adress     String
   city       String
   bedroom    Int
@@ -43,13 +43,12 @@ model post {
   longitude  String
   type       Type
   property   Property
-
-  userId     String   @db.ObjectId
-  user       User     @relation("UserToPost", fields: [userId], references: [id])
-
+ 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
+  
+  userId     String   @db.ObjectId
+  user       User     @relation("UserToPost", fields: [userId], references: [id])
   Comment Comment[] @relation("PostToComment")
 }
 

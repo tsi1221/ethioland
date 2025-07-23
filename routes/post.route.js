@@ -1,8 +1,48 @@
 import express from 'express';
 import { authenticate, authorize } from '../middlewares/auth.js';
 import prisma from '../prisma.js';
-
+import { verifyToken } from '../middlewares/VerifyToken.js';
+import { getPosts, getPostById, addPost, updatePost, deletePost } from '../controllers/post.controller.js';
 const router = express.Router();
+
+
+
+router.get('/', getPosts);// get all posts
+router.get('/:id',getPostById);// get post by id
+router.post('/',verifyToken,addPost); // create post
+router.put('/:id',verifyToken,updatePost);//update user
+router.delete('/:id',verifyToken,deletePost);//delete post
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Create post (authenticated users only)
 router.post('/', authenticate, async (req, res) => {
@@ -23,6 +63,8 @@ router.post('/', authenticate, async (req, res) => {
     res.status(500).json({ message: 'Error creating post', error: error.message });
   }
 });
+
+
 
 // Update post (only by owner)
 router.put('/:id', authenticate, async (req, res) => {
