@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["mongodb"] // this is deprecated in newer Prisma versions
+  previewFeatures = ["mongodb"]
 }
 
 datasource db {
@@ -27,14 +27,12 @@ model User {
   updatedAt       DateTime  @updatedAt
 }
 
-
-
 model post {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
   title      String
   price      Int
   content    String
-  img      String
+  img        String
   adress     String
   city       String
   bedroom    Int
@@ -43,36 +41,50 @@ model post {
   longitude  String
   type       Type
   property   Property
- 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  
-  userId     String   @db.ObjectId
-  user       User     @relation("UserToPost", fields: [userId], references: [id])
-  Comment Comment[] @relation("PostToComment")
+
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  userId     String       @db.ObjectId
+  user       User         @relation("UserToPost", fields: [userId], references: [id])
+  comments   Comment[]    @relation("PostToComment")
   postDetail PostDetail?
 }
 
 model Comment {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   content    String
-  userId     String   @db.ObjectId
-  postId     String   @db.ObjectId
+  userId     String    @db.ObjectId
+  postId     String    @db.ObjectId
 
-  user       User     @relation("UserToComment", fields: [userId], references: [id])
+  user       User      @relation("UserToComment", fields: [userId], references: [id])
+  post       post      @relation("PostToComment", fields: [postId], references: [id])
 
-  post       post     @relation("PostToComment", fields: [postId], references: [id])
-
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Token {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  token      String   @unique
-  userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  token      String    @unique
+  userId     String    @db.ObjectId
+  user       User      @relation(fields: [userId], references: [id])
   expiresAt  DateTime
+}
+
+model PostDetail {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  desc       String
+  utilities  String
+  pet        String?
+  income     String?
+  size       Int?
+  school     Int?
+  bus        Int?
+  restaurant Int?
+
+  postId     String    @unique @db.ObjectId // ✅ FIXED: Make 1-1 relation possible
+  post       post      @relation(fields: [postId], references: [id])
 }
 
 enum Role {
@@ -93,6 +105,7 @@ enum Property {
   condo
   land
 }
+
 enum City {
   AddisAbaba
   Adama
@@ -104,21 +117,4 @@ enum City {
   Gondar
   Dessie
   Jijiga
-}
-
-model PostDetail{
-
-id String @id @default(auto()) @map("_id") @db.ObjectId
-desc String
-utilities String
-pet String?
-income String?
-size Int?
-school Int?
-bus Int?
-restaurant Int?
-post Post @relation(fields:[postId],references:[id])
-postId String @db.ObjectId
-
-
 }
