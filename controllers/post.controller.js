@@ -1,3 +1,4 @@
+
 import prisma from "../prisma.js"; // ✅ Make sure this path is correct
 
 // ✅ Get all posts
@@ -37,11 +38,12 @@ export const getPostById = async (req, res) => {
 
 // ✅ Create a new post
 export const addPost = async (req, res) => {
+    const body = req.body;
+    const tokenUserId = req.userId;
     try {
-        const { title, content } = req.body;
 
         const newPost = await prisma.post.create({
-            data: { title, content },
+            data: { ...body, userId: tokenUserId ,}
         });
 
         res.status(201).json(newPost);
@@ -73,16 +75,34 @@ export const updatePost = async (req, res) => {
 
 
 
+
+
+
 // ✅ Delete a post
 export const deletePost = async (req, res) => {
-    try {
-        const { id } = req.params;
+    const id = req.params.id;
 
+    try {
+        // Check if the post exists
+        const post = await prisma.post.findUnique({
+            where: { id },
+        });
+
+        if (!post) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+
+        // Authorization check (userId must match)
+        if (post.userId !== req.userId) {
+            return res.status(403).json({ error: "You are not authorized to delete this post" });
+        }
+
+        // Delete the post
         await prisma.post.delete({
             where: { id },
         });
 
-        res.status(204).send(); // No content
+        res.status(204).send(); // ✅ Success: No content
     } catch (error) {
         console.error("Error deleting post:", error);
         res.status(500).json({ error: "Internal server error" });
