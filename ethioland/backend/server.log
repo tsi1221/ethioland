@@ -1,0 +1,4 @@
+[dotenv@17.2.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+🚀 EthioLand API Server running on port 5000
+📍 Environment: development
+🔗 API URL: http://localhost:5000
