@@ -18,10 +18,17 @@ model User {
   nationalId      String?
   kebeleId        String?
   profilePhotoUrl String?
+  isVerified      Boolean   @default(false)
+  verificationStatus VerificationStatus @default(PENDING)
 
   posts           post[]    @relation("UserToPost")
   comments        Comment[] @relation("UserToComment")
   Token           Token[]
+  documents       Document[]
+  messages        Message[] @relation("UserToMessage")
+  receivedMessages Message[] @relation("UserToReceivedMessage")
+  favorites       Favorite[]
+  applications    Application[]
 
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
@@ -41,6 +48,9 @@ model post {
   longitude  String
   type       Type
   property   Property
+  status     PostStatus   @default(PENDING)
+  isVerified Boolean      @default(false)
+  views      Int          @default(0)
 
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
@@ -49,6 +59,9 @@ model post {
   user       User         @relation("UserToPost", fields: [userId], references: [id])
   comments   Comment[]    @relation("PostToComment")
   postDetail PostDetail?
+  documents  Document[]
+  favorites  Favorite[]
+  applications Application[]
 }
 
 model Comment {
@@ -59,6 +72,68 @@ model Comment {
 
   user       User      @relation("UserToComment", fields: [userId], references: [id])
   post       post      @relation("PostToComment", fields: [postId], references: [id])
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Document {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  fileUrl    String
+  fileType   String
+  isVerified Boolean   @default(false)
+  verifiedBy String?   @db.ObjectId
+  verifiedAt DateTime?
+  
+  userId     String?   @db.ObjectId
+  user       User?     @relation(fields: [userId], references: [id])
+  
+  postId     String?   @db.ObjectId
+  post       post?     @relation(fields: [postId], references: [id])
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Message {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  content    String
+  senderId   String    @db.ObjectId
+  receiverId String    @db.ObjectId
+  postId     String?   @db.ObjectId
+  isRead     Boolean   @default(false)
+
+  sender     User      @relation("UserToMessage", fields: [senderId], references: [id])
+  receiver   User      @relation("UserToReceivedMessage", fields: [receiverId], references: [id])
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Favorite {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String    @db.ObjectId
+  postId     String    @db.ObjectId
+
+  user       User      @relation(fields: [userId], references: [id])
+  post       post      @relation(fields: [postId], references: [id])
+
+  createdAt  DateTime  @default(now())
+
+  @@unique([userId, postId])
+}
+
+model Application {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String    @db.ObjectId
+  postId     String    @db.ObjectId
+  status     ApplicationStatus @default(PENDING)
+  message    String?
+  offerPrice Int?
+
+  user       User      @relation(fields: [userId], references: [id])
+  post       post      @relation(fields: [postId], references: [id])
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -83,7 +158,7 @@ model PostDetail {
   bus        Int?
   restaurant Int?
 
-  postId     String    @unique @db.ObjectId // ✅ FIXED: Make 1-1 relation possible
+  postId     String    @unique @db.ObjectId
   post       post      @relation(fields: [postId], references: [id])
 }
 
@@ -104,6 +179,27 @@ enum Property {
   house
   condo
   land
+}
+
+enum PostStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SOLD
+  RENTED
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
 }
 
 enum City {
