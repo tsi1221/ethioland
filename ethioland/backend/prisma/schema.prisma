@@ -1,0 +1,319 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  email       String   @unique
+  phone       String   @unique
+  password    String
+  role        UserRole @default(BUYER)
+  profileImage String?
+  isVerified  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  location    String?
+  bio         String?
+  
+  // Language preference
+  language    String   @default("en") // en, am, om, ti
+  
+  // Agent specific fields
+  licenseNumber String?
+  agencyName    String?
+  experience    Int?     // years of experience
+  commission    Float?   // commission percentage
+  
+  // Relationships
+  properties       Property[]
+  sentMessages     Message[] @relation("MessageSender")
+  receivedMessages Message[] @relation("MessageReceiver")
+  payments         Payment[]
+  propertyViews    PropertyView[]
+  favorites        Favorite[]
+  reviews          Review[] @relation("ReviewReviewer")
+  receivedReviews  Review[] @relation("ReviewTarget")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("users")
+}
+
+model Property {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  price       Float
+  currency    String        @default("ETB") // Ethiopian Birr
+  
+  // Property details
+  propertyType PropertyType
+  listingType  ListingType  // SALE or RENT
+  size         Float        // in square meters
+  bedrooms     Int?
+  bathrooms    Int?
+  floors       Int?
+  yearBuilt    Int?
+  furnished    Boolean      @default(false)
+  
+  // Location details
+  address      String
+  city         String
+  region       String
+  country      String       @default("Ethiopia")
+  latitude     Float?
+  longitude    Float?
+  nearbyLandmarks String[]
+  
+  // Media
+  images       String[]     // URLs to property images
+  videos       String[]     // URLs to property videos
+  documents    Document[]
+  
+  // Status and verification
+  status       PropertyStatus @default(PENDING)
+  isVerified   Boolean        @default(false)
+  isFeatured   Boolean        @default(false)
+  views        Int            @default(0)
+  
+  // Owner information
+  ownerId      String         @db.ObjectId
+  owner        User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  // Relationships
+  messages     Message[]
+  propertyViews PropertyView[]
+  favorites    Favorite[]
+  payments     Payment[]
+  reviews      Review[]
+  
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  
+  @@map("properties")
+}
+
+model Document {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  filename     String
+  originalName String
+  url          String
+  fileType     String
+  fileSize     Int
+  documentType DocumentType
+  
+  // Verification
+  isVerified   Boolean        @default(false)
+  verifiedAt   DateTime?
+  verifiedBy   String?        @db.ObjectId
+  rejectionReason String?
+  
+  // Property relationship
+  propertyId   String         @db.ObjectId
+  property     Property       @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  
+  @@map("documents")
+}
+
+model Message {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  content    String
+  isRead     Boolean     @default(false)
+  messageType MessageType @default(INQUIRY)
+  
+  // Sender and receiver
+  senderId   String      @db.ObjectId
+  sender     User        @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  
+  receiverId String      @db.ObjectId
+  receiver   User        @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  
+  // Property context
+  propertyId String?     @db.ObjectId
+  property   Property?   @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  
+  @@map("messages")
+}
+
+model Payment {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  amount        Float
+  currency      String        @default("ETB")
+  paymentMethod PaymentMethod
+  paymentType   PaymentType
+  
+  // Payment gateway details
+  transactionId String?       @unique
+  gatewayRef    String?       // Reference from payment gateway
+  status        PaymentStatus @default(PENDING)
+  
+  // Relationships
+  userId        String        @db.ObjectId
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  propertyId    String?       @db.ObjectId
+  property      Property?     @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  
+  // Metadata
+  metadata      Json?         // Additional payment data
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  @@map("payments")
+}
+
+model PropertyView {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  propertyId String   @db.ObjectId
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  
+  viewedAt   DateTime @default(now())
+  
+  @@unique([userId, propertyId])
+  @@map("property_views")
+}
+
+model Favorite {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  propertyId String   @db.ObjectId
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  
+  createdAt  DateTime @default(now())
+  
+  @@unique([userId, propertyId])
+  @@map("favorites")
+}
+
+model Review {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating     Int      // 1-5 stars
+  comment    String?
+  
+  // Reviewer
+  reviewerId String   @db.ObjectId
+  reviewer   User     @relation("ReviewReviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
+  
+  // Target (could be property owner or agent)
+  targetId   String   @db.ObjectId
+  target     User     @relation("ReviewTarget", fields: [targetId], references: [id], onDelete: Cascade)
+  
+  // Property context
+  propertyId String?  @db.ObjectId
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@map("reviews")
+}
+
+model SystemSettings {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  key   String @unique
+  value Json
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("system_settings")
+}
+
+// Enums
+enum UserRole {
+  BUYER
+  SELLER
+  AGENT
+  ADMIN
+}
+
+enum PropertyType {
+  HOUSE
+  APARTMENT
+  LAND
+  COMMERCIAL
+  VILLA
+  CONDOMINIUM
+  OFFICE
+  WAREHOUSE
+}
+
+enum ListingType {
+  SALE
+  RENT
+}
+
+enum PropertyStatus {
+  PENDING     // Waiting for admin approval
+  APPROVED    // Approved and live
+  REJECTED    // Rejected by admin
+  SOLD        // Property has been sold
+  RENTED      // Property has been rented
+  SUSPENDED   // Temporarily suspended
+}
+
+enum DocumentType {
+  OWNERSHIP_CERTIFICATE
+  TAX_CLEARANCE
+  LAND_CERTIFICATE
+  ID_COPY
+  PASSPORT_COPY
+  BUSINESS_LICENSE
+  POWER_OF_ATTORNEY
+  OTHER
+}
+
+enum MessageType {
+  INQUIRY
+  OFFER
+  NEGOTIATION
+  SYSTEM
+  APPOINTMENT
+}
+
+enum PaymentMethod {
+  CHAPA
+  TELEBIRR
+  CBE_BIRR
+  BANK_TRANSFER
+  CASH
+}
+
+enum PaymentType {
+  DEPOSIT
+  FULL_PAYMENT
+  COMMISSION
+  SERVICE_FEE
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
