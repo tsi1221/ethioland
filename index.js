@@ -6,6 +6,8 @@ import authRoute from './routes/auth.route.js';
 import postRoute from './routes/post.route.js';
 import  testRoute from './routes/test.route.js';
 import userRoute from './routes/user.route.js';
+import 'dotenv/config';
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -15,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));

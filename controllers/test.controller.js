@@ -1,19 +1,19 @@
 import jwt from "jsonwebtoken";
 
 export const shouldBeLoggedIn = (req, res, next) => {
-    c
-//   const token = req.cookies.token;
-// 
+  const token = req.cookies.token;
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  const secret = process.env.JWT_SECRET || 'yoursecretkey';
+
+  jwt.verify(token, secret, (err, user) => {
     if (err) {
       return res.status(403).json({ message: "Token is not valid" });
     }
     req.user = user;
-    next(); // or send success response if this is not middleware
+    next();
   });
 };
 
@@ -23,16 +23,18 @@ export const shouldBeAdmin = (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+  const secret = process.env.JWT_SECRET || 'yoursecretkey';
+
+  jwt.verify(token, secret, (err, payload) => {
     if (err) {
       return res.status(403).json({ message: "Token is not valid" });
     }
 
-    if (!payload.isAdmin) {
+    if (payload.role !== 'ADMIN') {
       return res.status(403).json({ message: "Access denied: Admins only" });
     }
 
     req.user = payload;
-    next(); // or send success response if not used as middleware
+    next();
   });
 };
