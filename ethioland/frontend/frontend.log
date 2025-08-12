@@ -1,0 +1,41 @@
+
+> frontend@0.1.0 start
+> react-scripts start
+
+(node:4829) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:4829) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+Failed to compile.
+
+Error: It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+WARNING in [eslint] 
+src/pages/HomePage.tsx
+  Line 3:18:  'MapPin' is defined but never used      @typescript-eslint/no-unused-vars
+  Line 3:26:  'Home' is defined but never used        @typescript-eslint/no-unused-vars
+  Line 3:32:  'DollarSign' is defined but never used  @typescript-eslint/no-unused-vars
+
+src/services/auth.service.ts
+  Line 101:1:  Assign instance to a variable before exporting as module default  import/no-anonymous-default-export
+
+ERROR in ./node_modules/react-toastify/dist/ReactToastify.css (./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[2]!./node_modules/source-map-loader/dist/cjs.js!./node_modules/react-toastify/dist/ReactToastify.css)
+Module build failed (from ./node_modules/postcss-loader/dist/cjs.js):
+Error: It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+    at We (/workspace/ethioland/frontend/node_modules/tailwindcss/dist/lib.js:35:2121)
+    at LazyResult.runOnRoot (/workspace/ethioland/frontend/node_modules/postcss/lib/lazy-result.js:361:16)
+    at LazyResult.runAsync (/workspace/ethioland/frontend/node_modules/postcss/lib/lazy-result.js:290:26)
+    at LazyResult.async (/workspace/ethioland/frontend/node_modules/postcss/lib/lazy-result.js:192:30)
+    at LazyResult.then (/workspace/ethioland/frontend/node_modules/postcss/lib/lazy-result.js:436:17)
+
+ERROR in ./src/index.css (./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[1].oneOf[5].use[2]!./node_modules/source-map-loader/dist/cjs.js!./src/index.css)
+Module build failed (from ./node_modules/postcss-loader/dist/cjs.js):
+Error: It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+    at We (/workspace/ethioland/frontend/node_modules/tailwindcss/dist/lib.js:35:2121)
+    at LazyResult.runOnRoot (/workspace/ethioland/frontend/node_modules/postcss/lib/lazy-result.js:361:16)
+    at LazyResult.runAsync (/workspace/ethioland/frontend/node_modules/postcss/lib/lazy-result.js:290:26)
+    at LazyResult.async (/workspace/ethioland/frontend/node_modules/postcss/lib/lazy-result.js:192:30)
+    at LazyResult.then (/workspace/ethioland/frontend/node_modules/postcss/lib/lazy-result.js:436:17)
+
+webpack compiled with 2 errors and 1 warning
+No issues found.
