@@ -10,6 +10,7 @@ import ListPage from './routes/listPage/listpage';
 import LoginPage from './routes/login/LoginPage'
 import UpdateProfile from './routes/UpdateProfile/UpdateProfile';
 import Chat from './routes/chat/Chat';
+import AdminDashboard from './routes/admin/AdminDashboard';
 
 const App = () => {
   return (
@@ -25,7 +26,8 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/list" element={<ListPage />} />
         <Route path="/update-profile" element={<UpdateProfile/>} />
-         <Route path="/chat" element={<Chat/>} /> {/* 🟢 Chat route added */}
+        <Route path="/chat" element={<Chat/>} />
+        <Route path="/admin" element={<AdminDashboard/>} />
       </Routes>
     </>
   );
